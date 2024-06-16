@@ -969,11 +969,16 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
+  -- NOTE: Below are plugins that I (@ckreiling) added so you don't have to!
+  --
+  --  These are plugins that I use in my own Neovim configuration, and I've included them here.
+  --  I'll deal with merge conflicts and updates so you don't have to!
+
   -- WARN: Run ':Copilot auth' to authenticate with GitHub.
   --
   --   GitHub Copilot can be a welcome addition for some - feel free to uncomment this
   --   if you don't want Copilot completions.
-  require 'kickstart.plugins.copilot',
+  require 'kickstart.ckreiling.copilot',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.

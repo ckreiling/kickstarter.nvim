@@ -1,5 +1,13 @@
 # kickstart.nvim
 
+## [Forked] Introduction
+
+This is my (@ckreiling) personal fork of `kickstart.nvim`.
+
+This is an active WIP, as I recently (June 2024) deleted my old NvChad-based config that was getting unwieldy.
+
+I will, however keep from adding plugins to `lua/custom` - so feel free to fork this and add your plugins there!
+
 ## Introduction
 
 A starting point for Neovim that is:
