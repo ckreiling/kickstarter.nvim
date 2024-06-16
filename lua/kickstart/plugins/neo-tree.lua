@@ -15,6 +15,8 @@ return {
   },
   opts = {
     filesystem = {
+      -- NeoTree uses a filesystem watcher rather than relying on NeoVim BufWrite, etc
+      use_libuv_file_watcher = false,
       window = {
         mappings = {
           ['\\'] = 'close_window',
