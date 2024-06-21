@@ -697,6 +697,7 @@ require('lazy').setup({
           lua = { 'stylua' },
           python = { 'isort', 'black' },
           javascript = { 'prettier' },
+          typescript = { 'prettier' },
           go = { 'goimports', 'gofmt' },
           terraform = { 'terraformfmt' },
         },
@@ -924,6 +925,7 @@ require('lazy').setup({
         'terraform',
         'hcl',
         'kdl',
+        'dockerfile',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
