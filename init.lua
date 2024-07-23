@@ -982,6 +982,12 @@ require('lazy').setup({
   --   if you don't want Copilot completions.
   require 'kickstart.ckreiling.copilot',
 
+  -- NOTE: This plugin is useful for starting chats with CoPilot directly in Neovim.
+  --
+  --   Be sure to enable the Copilot plugin above and run ':Copilot auth' to authenticate with GitHub.
+  --   ALSO requires `jq` to be installed on your system.
+  require 'kickstart.ckreiling.gp-nvim',
+
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
