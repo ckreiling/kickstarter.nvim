@@ -986,7 +986,11 @@ require('lazy').setup({
   --
   --   Be sure to enable the Copilot plugin above and run ':Copilot auth' to authenticate with GitHub.
   --   ALSO requires `jq` to be installed on your system.
-  require 'kickstart.ckreiling.gp-nvim',
+  --   Additionally, if Anthropic is enabled, be sure to set the ANTHROPIC_API_KEY environment variable.
+  require 'kickstart.ckreiling.gp-nvim' {
+    disable_anthropic = false,
+    disable_copilot = true,
+  },
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
