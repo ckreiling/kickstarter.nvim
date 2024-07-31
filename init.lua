@@ -695,7 +695,7 @@ require('lazy').setup({
         end,
         formatters_by_ft = {
           lua = { 'stylua' },
-          python = { 'isort', 'black' },
+          python = { 'ruff_format', 'ruff_fix', 'ruff_organize_imports' },
           javascript = { 'prettier' },
           typescript = { 'prettier' },
           go = { 'goimports', 'gofmt' },
