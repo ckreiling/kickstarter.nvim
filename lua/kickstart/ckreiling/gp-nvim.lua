@@ -1,7 +1,3 @@
-local function lookup(table, key, default)
-  return table[key] ~= nil and table[key] or default
-end
-
 local function read_and_decode_json(file_path)
   if not vim.fn.filereadable(file_path) then
     return nil
@@ -30,10 +26,10 @@ local function keymapOptions(desc)
 end
 
 return function(config)
-  local disable_anthropic = lookup(config, 'disable_anthropic', false)
-  local disable_copilot = lookup(config, 'disable_copilot', false)
-  local anthropic_model = lookup(config, 'anthropic_model', 'claude-3-5-sonnet-20240620')
-  local copilot_model = lookup(config, 'copilot_model', 'gpt-4')
+  local disable_anthropic = config.disable_anthropic or false
+  local disable_copilot = config.disable_copilot or false
+  local anthropic_model = config.anthropic_model or 'claude-3-5-sonnet-20240620'
+  local copilot_model = config.copilot_model or 'gpt-4'
 
   return {
     'robitx/gp.nvim',

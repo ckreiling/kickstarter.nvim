@@ -1,13 +1,9 @@
-local function lookup(table, key, default)
-  return table[key] ~= nil and table[key] or default
-end
-
 return function(config)
-  local disable_anthropic = lookup(config, 'disable_anthropic', false)
-  local anthropic_token = os.getenv 'ANTHROPIC_API_KEY'
+  local disable_anthropic = config.disable_anthropic or false
+  local auto_suggestions_provider = config.auto_suggestions_provider or 'copilot'
 
+  local anthropic_token = os.getenv 'ANTHROPIC_API_KEY'
   local provider = (disable_anthropic or not anthropic_token and 'copilot') or 'claude'
-  local auto_suggestions_provider = lookup(config, 'auto_suggestions_provider', 'copilot')
 
   return {
     'yetone/avante.nvim',
