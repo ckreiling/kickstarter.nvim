@@ -449,6 +449,17 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'someone-stole-my-name/yaml-companion.nvim',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+      'nvim-lua/plenary.nvim',
+    },
+    config = function()
+      require('telescope').load_extension 'yaml_schema'
+    end,
+  },
+
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
@@ -464,6 +475,10 @@ require('lazy').setup({
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       { 'folke/neodev.nvim', opts = {} },
+
+      -- fire up schema management backends
+      'someone-stole-my-name/yaml-companion.nvim',
+      'b0o/schemastore.nvim',
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -599,6 +614,63 @@ require('lazy').setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+      local yaml_companion = require('yaml-companion').setup {
+        -- detect k8s schemas based on file content
+        builtin_matchers = {
+          kubernetes = { enabled = true },
+        },
+
+        -- schemas available in Telescope picker
+        schemas = {
+          -- not loaded automatically, manually select with
+          -- :Telescope yaml_schema
+          {
+            name = 'Argo CD Application',
+            uri = 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json',
+          },
+          {
+            name = 'SealedSecret',
+            uri = 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/bitnami.com/sealedsecret_v1alpha1.json',
+          },
+          -- schemas below are automatically loaded, but added
+          -- them here so that they show up in the statusline
+          {
+            name = 'Kustomization',
+            uri = 'https://json.schemastore.org/kustomization.json',
+          },
+          {
+            name = 'GitHub Workflow',
+            uri = 'https://json.schemastore.org/github-workflow.json',
+          },
+          {
+            name = 'Docker Compose',
+            uri = 'https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json',
+          },
+        },
+
+        lspconfig = {
+          settings = {
+            yaml = {
+              validate = true,
+              schemaStore = {
+                enable = false,
+                url = '',
+              },
+
+              -- schemas from store, matched by filename
+              -- loaded automatically
+              schemas = require('schemastore').yaml.schemas {
+                select = {
+                  'kustomization.yaml',
+                  'GitHub Workflow',
+                  'package.json',
+                },
+              },
+            },
+          },
+        },
+      }
+
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -669,6 +741,16 @@ require('lazy').setup({
           elixirLS = {
             dialyzerEnabled = false,
             fetchDeps = false,
+          },
+        },
+        taplo = {},
+        yamlls = yaml_companion,
+        jsonls = {
+          settings = {
+            json = {
+              schemas = require('schemastore').json.schemas(),
+              validate = { enable = true },
+            },
           },
         },
       }
