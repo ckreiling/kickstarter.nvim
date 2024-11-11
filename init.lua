@@ -1109,6 +1109,11 @@ require('lazy').setup({
     disable_copilot = true,
   },
 
+  -- NOTE: A Cursor-like plugin that offers enhanced AI-powered development.
+  --
+  --   For more, see the documentation for avante.nvim
+  require 'kickstart.ckreiling.avante-nvim' {},
+
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
