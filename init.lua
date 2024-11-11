@@ -659,13 +659,7 @@ require('lazy').setup({
 
               -- schemas from store, matched by filename
               -- loaded automatically
-              schemas = require('schemastore').yaml.schemas {
-                select = {
-                  'kustomization.yaml',
-                  'GitHub Workflow',
-                  'package.json',
-                },
-              },
+              schemas = require('schemastore').yaml.schemas(),
             },
           },
         },
@@ -743,7 +737,10 @@ require('lazy').setup({
             fetchDeps = false,
           },
         },
-        taplo = {},
+        taplo = {
+          filetypes = { 'toml' },
+          root_dir = require('lspconfig.util').root_pattern('*.toml', '.git'),
+        },
         yamlls = yaml_companion,
         jsonls = {
           settings = {

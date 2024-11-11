@@ -49,13 +49,13 @@ return function(config)
             vim.api.nvim_err_writeln 'Warning: GitHub Copilot secret not found in CoPilot config (will not use Copilot for Gp* commands)'
           end
         else
-          vim.api.nvim_err_writeln 'Warning: GitHub Copilot config not found (will not use Copilot for Gp* commands)'
+          vim.api.nvim_out_write 'Warning: GitHub Copilot config not found (will not use Copilot for Gp* commands)'
         end
       end
 
       local anthropic_token = os.getenv 'ANTHROPIC_API_KEY'
       if not disable_anthropic and not anthropic_token then
-        vim.api.nvim_err_writeln 'Warning: ANTHROPIC_API_KEY not found (will not use Anthropic for Gp* commands)'
+        vim.api.nvim_out_write 'Warning: ANTHROPIC_API_KEY not found (will not use Anthropic for Gp* commands)'
       end
 
       local conf = {
