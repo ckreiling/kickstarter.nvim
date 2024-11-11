@@ -285,22 +285,49 @@ require('lazy').setup({
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
+      local wk = require 'which-key'
 
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+      wk.add {
+        {
+          '<leader>c',
+          desc = '[C]ode',
+        },
+        {
+          '<leader>d',
+          desc = '[D]ocument',
+        },
+        {
+          '<leader>r',
+          desc = '[R]ename',
+        },
+        {
+          '<leader>s',
+          desc = '[S]earch',
+        },
+        {
+          '<leader>w',
+          desc = '[W]orkspace',
+        },
+        {
+          '<leader>t',
+          desc = '[T]oggle',
+        },
+        {
+          '<leader>h',
+          desc = 'Git [H]unk',
+        },
       }
+
       -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
+      wk.add {
+        {
+          '<leader>h',
+          desc = 'Git [H]unk',
+          mode = 'v',
+        },
+      }
+
+      require('which-key').setup()
     end,
   },
 
@@ -392,8 +419,10 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader>sj', builtin.jumplist, { desc = '[S]earch [J]umplist' })
       vim.keymap.set('n', '<leader>slr', builtin.lsp_references, { desc = '[S]earch [L]SP [R]eferences' })
+      vim.keymap.set('n', '<leader>slw', builtin.lsp_workspace_symbols, { desc = '[S]earch [L]SP [W]orkspace Symbols' })
       vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+      vim.keymap.set('n', '<leader>l', builtin.colorscheme, { desc = '[L]ook' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -618,7 +647,7 @@ require('lazy').setup({
           },
         },
         cssls = {},
-        tsserver = {},
+        ts_ls = {},
         pyright = {
           settings = {
             python = {
@@ -633,6 +662,15 @@ require('lazy').setup({
         },
         gopls = {},
         templ = {},
+        elixirls = {
+          flags = {
+            debounce_text_changes = 150,
+          },
+          elixirLS = {
+            dialyzerEnabled = false,
+            fetchDeps = false,
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
