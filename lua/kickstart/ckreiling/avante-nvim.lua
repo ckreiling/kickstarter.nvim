@@ -6,64 +6,61 @@ return function(config)
   local disable_anthropic = lookup(config, 'disable_anthropic', false)
   local anthropic_token = os.getenv 'ANTHROPIC_API_KEY'
 
-  local provider = disable_anthropic or not anthropic_token and 'copilot' or 'claude'
+  local provider = (disable_anthropic or not anthropic_token and 'copilot') or 'claude'
   local auto_suggestions_provider = lookup(config, 'auto_suggestions_provider', 'copilot')
 
   return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     lazy = false,
-    version = false, -- set this if you want to always pull the latest change
+    version = false,
     opts = {
-      {
-        ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-        provider = provider, -- Recommend using Claude
-        auto_suggestions_provider = auto_suggestions_provider, -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
-        hints = { enabled = false },
-        claude = {
-          endpoint = 'https://api.anthropic.com',
-          model = 'claude-3-5-sonnet-20241022',
-          temperature = 0,
-          max_tokens = 4096,
+      provider = provider,
+      auto_suggestions_provider = auto_suggestions_provider,
+      hints = { enabled = false },
+      claude = {
+        endpoint = 'https://api.anthropic.com',
+        model = 'claude-3-5-sonnet-20241022',
+        temperature = 0,
+        max_tokens = 4096,
+      },
+      behaviour = {
+        auto_suggestions = false, -- Experimental stage
+        auto_set_highlight_group = true,
+        auto_set_keymaps = true,
+        auto_apply_diff_after_generation = false,
+        support_paste_from_clipboard = false,
+      },
+      mappings = {
+        --- @class AvanteConflictMappings
+        diff = {
+          ours = 'co',
+          theirs = 'ct',
+          all_theirs = 'ca',
+          both = 'cb',
+          cursor = 'cc',
+          next = ']x',
+          prev = '[x',
         },
-        behaviour = {
-          auto_suggestions = false, -- Experimental stage
-          auto_set_highlight_group = true,
-          auto_set_keymaps = true,
-          auto_apply_diff_after_generation = false,
-          support_paste_from_clipboard = false,
+        suggestion = {
+          accept = '<M-l>',
+          next = '<M-]>',
+          prev = '<M-[>',
+          dismiss = '<C-]>',
         },
-        mappings = {
-          --- @class AvanteConflictMappings
-          diff = {
-            ours = 'co',
-            theirs = 'ct',
-            all_theirs = 'ca',
-            both = 'cb',
-            cursor = 'cc',
-            next = ']x',
-            prev = '[x',
-          },
-          suggestion = {
-            accept = '<M-l>',
-            next = '<M-]>',
-            prev = '<M-[>',
-            dismiss = '<C-]>',
-          },
-          jump = {
-            next = ']]',
-            prev = '[[',
-          },
-          submit = {
-            normal = '<CR>',
-            insert = '<C-s>',
-          },
-          sidebar = {
-            apply_all = 'A',
-            apply_cursor = 'a',
-            switch_windows = '<Tab>',
-            reverse_switch_windows = '<S-Tab>',
-          },
+        jump = {
+          next = ']]',
+          prev = '[[',
+        },
+        submit = {
+          normal = '<CR>',
+          insert = '<C-s>',
+        },
+        sidebar = {
+          apply_all = 'A',
+          apply_cursor = 'a',
+          switch_windows = '<Tab>',
+          reverse_switch_windows = '<S-Tab>',
         },
       },
     },
