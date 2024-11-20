@@ -656,6 +656,7 @@ require('lazy').setup({
                 enable = false,
                 url = '',
               },
+              format = { enable = false },
 
               -- schemas from store, matched by filename
               -- loaded automatically
