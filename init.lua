@@ -1115,6 +1115,11 @@ require('lazy').setup({
   --   For more, see the documentation for avante.nvim
   require 'kickstart.ckreiling.avante-nvim' {},
 
+  -- NOTE: A plugin for running tests in Neovim.
+  --
+  --  For more, see the documentation for neotest.nvim: https://github.com/nvim-neotest/neotest
+  require 'kickstart.ckreiling.neotest' {},
+
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
