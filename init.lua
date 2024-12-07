@@ -221,6 +221,21 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
+-- [[ Setup a notification for LSP progress ]]
+vim.api.nvim_create_autocmd('LspProgress', {
+  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+  callback = function(ev)
+    local spinner = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
+    vim.notify(vim.lsp.status(), 'info', {
+      id = 'lsp_progress',
+      title = 'LSP Progress',
+      opts = function(notif)
+        notif.icon = ev.data.params.value.kind == 'end' and ' ' or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+      end,
+    })
+  end,
+})
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
@@ -1122,6 +1137,9 @@ require('lazy').setup({
 
   -- NOTE: A plugin for prettier UIs!
   require 'kickstart.ckreiling.decorator',
+
+  -- NOTE: QoL improvements
+  require 'kickstart.ckreiling.snacks',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
