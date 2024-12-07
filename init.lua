@@ -1120,12 +1120,16 @@ require('lazy').setup({
   --  For more, see the documentation for neotest.nvim: https://github.com/nvim-neotest/neotest
   require 'kickstart.ckreiling.neotest' {},
 
+  -- NOTE: A plugin for prettier UIs!
+  require 'kickstart.ckreiling.decorator',
+
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
   -- { import = 'custom.plugins' },
+  --
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
