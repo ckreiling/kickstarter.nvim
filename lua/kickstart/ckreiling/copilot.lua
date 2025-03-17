@@ -6,6 +6,9 @@
 return {
   'zbirenbaum/copilot.lua',
   cmd = 'Copilot',
+  cond = function()
+    return not vim.g.vsode
+  end,
   -- The plugin can be quite slow to start up - so only load it when entering Insert mode.
   event = 'InsertEnter',
   opts = {

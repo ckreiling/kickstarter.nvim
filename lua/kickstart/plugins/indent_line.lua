@@ -4,6 +4,9 @@ return {
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help ibl`
     main = 'ibl',
+    cond = function()
+      return not vim.g.vscode
+    end,
     opts = {},
   },
 }

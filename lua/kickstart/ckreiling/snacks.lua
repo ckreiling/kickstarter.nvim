@@ -2,12 +2,16 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
-  ---@type snacks.config
+  cond = function()
+    return not vim.g.vscode
+  end,
+  ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
     notifier = {},
     words = { enabled = true },
     statuscolumn = {},
+    terminal = {},
     dashboard = {
       sections = {
         { section = 'header' },
@@ -37,9 +41,16 @@ return {
     {
       '<leader>gB',
       function()
-        require('snacks').gitbrowse()
+        Snacks.gitbrowse()
       end,
       desc = '[G]it [B]rowse',
+    },
+    {
+      '<leader>tt',
+      function()
+        Snacks.terminal.toggle '/bin/zsh'
+      end,
+      desc = '[T]oggle [T]erminal',
     },
   },
 }

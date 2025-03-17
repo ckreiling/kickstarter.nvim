@@ -270,6 +270,9 @@ require('lazy').setup({
   -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
+    cond = function()
+      return not vim.g.vscode
+    end,
     opts = {
       signs = {
         add = { text = '+' },
@@ -298,6 +301,9 @@ require('lazy').setup({
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
+    cond = function()
+      return not vim.g.vscode
+    end,
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     config = function() -- This is the function that runs, AFTER loading
       local wk = require 'which-key'
@@ -355,6 +361,9 @@ require('lazy').setup({
 
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
+    cond = function()
+      return not vim.g.vscode
+    end,
     event = 'VimEnter',
     branch = '0.1.x',
     dependencies = {
@@ -466,6 +475,9 @@ require('lazy').setup({
 
   {
     'someone-stole-my-name/yaml-companion.nvim',
+    cond = function()
+      return not vim.g.vscode
+    end,
     dependencies = {
       'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',
@@ -477,6 +489,9 @@ require('lazy').setup({
 
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
+    cond = function()
+      return not vim.g.vscode
+    end,
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
@@ -1044,6 +1059,9 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    cond = function()
+      return not vim.g.vscode
+    end,
     build = ':TSUpdate',
     opts = {
       ensure_installed = {

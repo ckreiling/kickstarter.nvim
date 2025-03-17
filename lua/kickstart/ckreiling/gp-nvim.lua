@@ -33,6 +33,9 @@ return function(config)
 
   return {
     'robitx/gp.nvim',
+    cond = function()
+      return not vim.g.vscode
+    end,
     config = function()
       -- This is so ugly...
       local copilot = { config = nil, secret = nil }

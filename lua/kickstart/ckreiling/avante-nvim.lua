@@ -8,6 +8,9 @@ return function(config)
   return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
+    cond = function()
+      return not vim.g.vscode
+    end,
     lazy = false,
     version = false,
     opts = {

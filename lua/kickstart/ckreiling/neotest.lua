@@ -5,6 +5,9 @@
 return function(_config)
   return {
     'nvim-neotest/neotest',
+    cond = function()
+      return not vim.g.vscode
+    end,
     dependencies = {
       'nvim-neotest/nvim-nio',
       'nvim-lua/plenary.nvim',
