@@ -745,7 +745,7 @@ require('lazy').setup({
         },
         cssls = {},
         ts_ls = {},
-        pyright = {
+        basedpyright = {
           settings = {
             python = {
               analysis = {
@@ -753,6 +753,12 @@ require('lazy').setup({
                 autoSearchPaths = true,
                 diagnosticMode = 'openFilesOnly',
                 useLibraryCodeForTypes = true,
+                inlayHints = {
+                  functionReturnTypes = true,
+                  variableTypes = true,
+                  parameterTypes = true,
+                  includeInlayParameterNameHints = 'all',
+                },
               },
             },
           },
