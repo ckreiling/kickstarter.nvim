@@ -3,6 +3,7 @@
 -- The GitHub-maintained Vim plugin is noticeably slower!
 -- For more information, try :help Copilot
 
+---@type LazyPluginSpec
 return {
   'zbirenbaum/copilot.lua',
   cmd = 'Copilot',

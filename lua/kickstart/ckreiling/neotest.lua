@@ -3,6 +3,7 @@
 -- Run `:h neotest` to see docs!
 
 return function(_config)
+  ---@type LazyPluginSpec
   return {
     'nvim-neotest/neotest',
     cond = function()

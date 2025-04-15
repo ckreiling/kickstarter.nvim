@@ -1145,20 +1145,10 @@ require('lazy').setup({
   --   if you don't want Copilot completions.
   require 'kickstart.ckreiling.copilot',
 
-  -- NOTE: This plugin is useful for starting chats with CoPilot directly in Neovim.
+  -- NOTE: A Cursor-like plugin for Neovim
   --
-  --   Be sure to enable the Copilot plugin above and run ':Copilot auth' to authenticate with GitHub.
-  --   ALSO requires `jq` to be installed on your system.
-  --   Additionally, if Anthropic is enabled, be sure to set the ANTHROPIC_API_KEY environment variable.
-  require 'kickstart.ckreiling.gp-nvim' {
-    disable_anthropic = false,
-    disable_copilot = true,
-  },
-
-  -- NOTE: A Cursor-like plugin that offers enhanced AI-powered development.
-  --
-  --   For more, see the documentation for avante.nvim
-  require 'kickstart.ckreiling.avante-nvim' {},
+  --   This plugin will use Copilot as the LLM for chats. It does not do suggestions.
+  require 'kickstart.ckreiling.codecompanion',
 
   -- NOTE: A plugin for running tests in Neovim.
   --
