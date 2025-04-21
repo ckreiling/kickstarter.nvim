@@ -13,6 +13,10 @@ return {
   -- The plugin can be quite slow to start up - so only load it when entering Insert mode.
   event = 'InsertEnter',
   opts = {
+    copilot_model = 'gpt-4o-copilot',
+    panel = {
+      auto_refresh = true,
+    },
     suggestion = {
       -- Enable suggestions.
       enabled = true,
@@ -23,8 +27,8 @@ return {
       -- NOTE: The default keybindings don't really play nicely with existing mappings.
       keymap = {
         accept = '<C-a>',
-        next = '<C-\\',
-        previous = '<C-[>',
+        next = '<C-u>',
+        prev = '<C-d>',
       },
     },
   },

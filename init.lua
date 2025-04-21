@@ -747,9 +747,9 @@ require('lazy').setup({
         ts_ls = {},
         basedpyright = {
           settings = {
-            python = {
+            basedpyright = {
               analysis = {
-                typeCheckingMode = 'basic',
+                typeCheckingMode = 'standard',
                 autoSearchPaths = true,
                 diagnosticMode = 'openFilesOnly',
                 useLibraryCodeForTypes = true,
