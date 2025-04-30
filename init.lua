@@ -746,6 +746,9 @@ require('lazy').setup({
         cssls = {},
         ts_ls = {},
         basedpyright = {
+          on_attach = function(client, bufnr)
+            client.server_capabilities.semanticTokensProvider = nil
+          end,
           settings = {
             basedpyright = {
               analysis = {
