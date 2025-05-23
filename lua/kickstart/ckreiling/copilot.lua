@@ -8,7 +8,7 @@ return {
   'zbirenbaum/copilot.lua',
   cmd = 'Copilot',
   cond = function()
-    return not vim.g.vsode
+    return not vim.g.vsode and not vim.g.sops_engaged
   end,
   -- The plugin can be quite slow to start up - so only load it when entering Insert mode.
   event = 'InsertEnter',

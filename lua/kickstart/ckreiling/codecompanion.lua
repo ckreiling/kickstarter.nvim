@@ -7,7 +7,7 @@ return {
   -- it could easily be added.
   opts = {},
   cond = function()
-    return not vim.g.vsode
+    return not vim.g.vsode and not vim.g.sops_engaged
   end,
   dependencies = {
     'nvim-lua/plenary.nvim',
