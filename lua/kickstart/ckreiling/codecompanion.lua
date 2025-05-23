@@ -5,13 +5,40 @@ return {
   --
   -- This config doesn't conditionally try to use any other type of adapter, but
   -- it could easily be added.
-  opts = {},
+  opts = {
+    extensions = {
+      mcphub = {
+        callback = 'mcphub.extensions.codecompanion',
+        opts = {
+          show_result_in_chat = true, -- Show mcp tool results in chat
+          make_vars = true, -- Convert resources to #variables
+          make_slash_commands = true, -- Add prompts as /slash commands
+        },
+      },
+    },
+  },
   cond = function()
     return not vim.g.vsode and not vim.g.sops_engaged
   end,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
+    {
+      'ravitemer/mcphub.nvim',
+      dependencies = {
+        'nvim-lua/plenary.nvim',
+      },
+      build = 'bundled_build.lua',
+      config = function()
+        require('mcphub').setup {
+          use_bundled_binary = true,
+        }
+      end,
+    },
+    {
+      'MeanderingProgrammer/render-markdown.nvim',
+      ft = { 'markdown', 'codecompanion' },
+    },
   },
   keys = {
     {
