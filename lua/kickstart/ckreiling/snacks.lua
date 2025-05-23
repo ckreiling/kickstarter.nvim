@@ -53,5 +53,12 @@ return {
       end,
       desc = '[T]oggle [T]erminal',
     },
+    {
+      '<leader>gg',
+      function()
+        Snacks.lazygit()
+      end,
+      desc = '[G]it [G]ui',
+    },
   },
 }
