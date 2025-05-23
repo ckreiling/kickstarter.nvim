@@ -6,6 +6,25 @@ return {
   -- This config doesn't conditionally try to use any other type of adapter, but
   -- it could easily be added.
   opts = {
+    strategies = {
+      chat = {
+        keymaps = {
+          -- Override the default 'q' mapping to toggle instead of stop
+          toggle_chat = {
+            modes = { n = 'q' },
+            description = 'Toggle chat buffer',
+            callback = function()
+              require('codecompanion').toggle()
+            end,
+          },
+          -- Move the stop functionality to another key, since 'q' is taken
+          stop = {
+            modes = { n = '<C-q>' },
+            description = 'Stop current request',
+          },
+        },
+      },
+    },
     extensions = {
       mcphub = {
         callback = 'mcphub.extensions.codecompanion',
@@ -15,6 +34,10 @@ return {
           make_slash_commands = true, -- Add prompts as /slash commands
         },
       },
+      history = {
+        enabled = true,
+        opts = {},
+      },
     },
   },
   cond = function()
@@ -23,6 +46,7 @@ return {
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
+    'ravitemer/codecompanion-history.nvim',
     {
       'ravitemer/mcphub.nvim',
       dependencies = {
@@ -61,6 +85,11 @@ return {
         require('codecompanion').actions {}
       end,
       desc = '[C]ode [C]ompanion [A]ctions',
+    },
+    {
+      '<leader>cch',
+      '<cmd>CodeCompanionHistory<CR>',
+      desc = '[C]ode [C]ompanion [H]istory',
     },
   },
 }
