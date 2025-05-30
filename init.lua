@@ -1137,42 +1137,12 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
-  -- NOTE: Below are plugins that I (@ckreiling) added so you don't have to!
-  --
-  --  These are plugins that I use in my own Neovim configuration, and I've included them here.
-  --  I'll deal with merge conflicts and updates so you don't have to!
-
-  -- WARN: Run ':Copilot auth' to authenticate with GitHub.
-  --
-  --   GitHub Copilot can be a welcome addition for some - feel free to uncomment this
-  --   if you don't want Copilot completions.
-  require 'kickstart.ckreiling.copilot',
-
-  -- NOTE: A Cursor-like plugin for Neovim
-  --
-  --   This plugin will use Copilot as the LLM for chats. It does not do suggestions.
-  require 'kickstart.ckreiling.codecompanion',
-
-  -- NOTE: A plugin for running tests in Neovim.
-  --
-  --  For more, see the documentation for neotest.nvim: https://github.com/nvim-neotest/neotest
-  require 'kickstart.ckreiling.neotest' {},
-
-  -- NOTE: A plugin for prettier UIs!
-  require 'kickstart.ckreiling.decorator',
-
-  -- NOTE: QoL improvements
-  require 'kickstart.ckreiling.snacks',
-
-  ---NOTE: A plugin for displaying buffers in tabs at the top of the screen.
-  require 'kickstart.ckreiling.bufferline',
-
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
 }, {
   ui = {
