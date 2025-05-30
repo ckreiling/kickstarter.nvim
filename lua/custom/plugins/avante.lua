@@ -47,5 +47,6 @@ return {
     'hrsh7th/nvim-cmp',
     'zbirenbaum/copilot.lua', -- for providers='copilot'
     'MeanderingProgrammer/render-markdown.nvim',
+    'ravitemer/mcphub.nvim',
   },
 }
