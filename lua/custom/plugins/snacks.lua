@@ -13,6 +13,17 @@ return {
     words = { enabled = true },
     statuscolumn = {},
     terminal = {},
+    input = {
+      enabled = true,
+      -- Add these specific options for better styling
+      win = {
+        relative = 'cursor',
+        row = 1,
+        col = 0,
+        border = 'rounded',
+        title_pos = 'center',
+      },
+    },
     dashboard = {
       sections = {
         { section = 'header' },

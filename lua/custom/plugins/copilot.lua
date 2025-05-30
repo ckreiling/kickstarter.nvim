@@ -17,6 +17,16 @@ return {
     panel = {
       auto_refresh = true,
     },
+    filetypes = {
+      sh = function()
+        if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), '^%.env.*') then
+          -- disable for .env files
+          return false
+        end
+
+        return true
+      end,
+    },
     suggestion = {
       -- Enable suggestions.
       enabled = true,
@@ -24,6 +34,8 @@ return {
       auto_trigger = true,
       -- A pretty low debounce - perhaps too low for slow Internet connections.
       debounce = 25,
+      -- After accepting a suggestion, automatically trigger the next one.
+      trigger_on_accept = true,
       -- NOTE: The default keybindings don't really play nicely with existing mappings.
       keymap = {
         accept = '<C-a>',

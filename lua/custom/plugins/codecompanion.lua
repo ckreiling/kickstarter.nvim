@@ -47,22 +47,8 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
     'ravitemer/codecompanion-history.nvim',
-    {
-      'ravitemer/mcphub.nvim',
-      dependencies = {
-        'nvim-lua/plenary.nvim',
-      },
-      build = 'bundled_build.lua',
-      config = function()
-        require('mcphub').setup {
-          use_bundled_binary = true,
-        }
-      end,
-    },
-    {
-      'MeanderingProgrammer/render-markdown.nvim',
-      ft = { 'markdown', 'codecompanion' },
-    },
+    'ravitemer/mcphub.nvim',
+    'MeanderingProgrammer/render-markdown.nvim',
   },
   keys = {
     {
