@@ -13,7 +13,7 @@ return {
   -- The plugin can be quite slow to start up - so only load it when entering Insert mode.
   event = 'InsertEnter',
   opts = {
-    copilot_model = 'gpt-4o-copilot',
+    copilot_model = 'gpt-4.1-copilot',
     panel = {
       auto_refresh = true,
     },
