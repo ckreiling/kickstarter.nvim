@@ -792,6 +792,7 @@ require('lazy').setup({
         },
         ocamllsp = {},
         ocamlformat = {},
+        svelte = {},
       }
 
       require('lspconfig').gleam.setup {}
