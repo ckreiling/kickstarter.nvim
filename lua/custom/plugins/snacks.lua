@@ -13,6 +13,8 @@ return {
     words = { enabled = true },
     statuscolumn = {},
     terminal = {},
+    quickfile = {},
+    scroll = {},
     input = {
       enabled = true,
       -- Add these specific options for better styling

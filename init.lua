@@ -310,12 +310,20 @@ require('lazy').setup({
 
       wk.add {
         {
+          '<leader>a',
+          des = '[A]vante',
+        },
+        {
           '<leader>c',
           desc = '[C]ode',
         },
         {
           '<leader>d',
           desc = '[D]ocument',
+        },
+        {
+          '<leader>g',
+          desc = '[G]it',
         },
         {
           '<leader>r',
