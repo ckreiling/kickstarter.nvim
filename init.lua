@@ -311,7 +311,7 @@ require('lazy').setup({
       wk.add {
         {
           '<leader>a',
-          des = '[A]vante',
+          desc = '[A]vante',
         },
         {
           '<leader>c',
@@ -549,8 +549,11 @@ require('lazy').setup({
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
       vim.api.nvim_create_autocmd('LspAttach', {
+
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
+          vim.lsp.set_log_level 'OFF' -- LSP logs are rarely useful
+
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
           --
@@ -1071,6 +1074,16 @@ require('lazy').setup({
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_location = function()
         return '%2l:%-2v'
+      end
+
+      ---@diagnostic disable-next-line: duplicate-set-field
+      statusline.section_filename = function()
+        local filename = vim.fn.expand '%:t'
+        if filename == '' then
+          return '[No Name]'
+        end
+        local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+        return project_name .. '/' .. filename
       end
 
       -- ... and there is more!
