@@ -10,7 +10,7 @@ return {
   'zbirenbaum/copilot.lua',
   cmd = 'Copilot',
   cond = function()
-    return autocomplete_config.backend == 'copilot' and not vim.g.vsode and not vim.g.sops_engaged
+    return not vim.g.vsode and not vim.g.sops_engaged
   end,
   -- The plugin can be quite slow to start up - so only load it when entering Insert mode.
   event = 'InsertEnter',
@@ -31,7 +31,7 @@ return {
     },
     suggestion = {
       -- Enable suggestions.
-      enabled = true,
+      enabled = autocomplete_config.backend == 'copilot',
       -- Ensure suggestions appear while typing.
       auto_trigger = true,
       -- A pretty low debounce - perhaps too low for slow Internet connections.

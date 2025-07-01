@@ -1,7 +1,8 @@
 local M = {}
 
 -- Change this to edit the default autocomplete plugin
-local default = 'copilot'
+-- local default = 'copilot'
+local default = 'windsurf'
 M.backend = os.getenv 'NVIM_AUTOCOMPLETE' or default
 
 if M.backend ~= 'copilot' and M.backend ~= 'windsurf' then
