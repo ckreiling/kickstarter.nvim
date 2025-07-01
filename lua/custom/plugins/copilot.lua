@@ -3,12 +3,14 @@
 -- The GitHub-maintained Vim plugin is noticeably slower!
 -- For more information, try :help Copilot
 
+local autocomplete_config = require 'custom.autocomplete'
+
 ---@type LazyPluginSpec
 return {
   'zbirenbaum/copilot.lua',
   cmd = 'Copilot',
   cond = function()
-    return not vim.g.vsode and not vim.g.sops_engaged
+    return autocomplete_config.backend == 'copilot' and not vim.g.vsode and not vim.g.sops_engaged
   end,
   -- The plugin can be quite slow to start up - so only load it when entering Insert mode.
   event = 'InsertEnter',
