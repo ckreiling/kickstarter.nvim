@@ -311,7 +311,7 @@ require('lazy').setup({
       wk.add {
         {
           '<leader>a',
-          desc = '[A]vante',
+          desc = '[A]I/Claude Code',
         },
         {
           '<leader>c',
@@ -372,7 +372,7 @@ require('lazy').setup({
     cond = function()
       return not vim.g.vscode
     end,
-    event = 'VimEnter',
+    event = 'VeryLazy',
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
@@ -490,6 +490,7 @@ require('lazy').setup({
       'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',
     },
+    event = 'VeryLazy',
     config = function()
       require('telescope').load_extension 'yaml_schema'
     end,
@@ -500,6 +501,7 @@ require('lazy').setup({
     cond = function()
       return not vim.g.vscode
     end,
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true, version = '^1.0.0' }, -- NOTE: Must be loaded before dependants

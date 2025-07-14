@@ -24,6 +24,36 @@ return {
     -- 'vim-test/vim-test',
     -- 'nvim-neotest/neotest-vim-test',
   },
+  keys = {
+    {
+      '<leader>ts',
+      function()
+        require('neotest').summary.toggle()
+      end,
+      desc = '[T]est [S]ummary Panel',
+    },
+    {
+      '<leader>to',
+      function()
+        require('neotest').output_panel.toggle()
+      end,
+      desc = '[T]est [O]utput Panel',
+    },
+    {
+      '<leader>tr',
+      function()
+        require('neotest').run.run(vim.fn.expand '%')
+      end,
+      desc = '[T]est [R]un Now',
+    },
+    {
+      '<leader>tc',
+      function()
+        require('neotest').run.stop()
+      end,
+      desc = '[T]est [C]ancel Now',
+    },
+  },
   config = function()
     local neotest = require 'neotest'
 
@@ -36,16 +66,5 @@ return {
         -- require 'neotest-vim-test' { ignore_filetypes = { 'python' } },
       },
     }
-
-    -- I more frequently find I want to run the current tests in the current file
-    -- and open the summary panel to rerun specific tests.
-    local run_current_file = function()
-      neotest.run.run(vim.fn.expand '%')
-    end
-
-    vim.keymap.set({ 'n' }, '<leader>ts', neotest.summary.toggle, { desc = '[T]est [S]ummary Panel' })
-    vim.keymap.set({ 'n' }, '<leader>to', neotest.output_panel.toggle, { desc = '[T]est [O]utput Panel' })
-    vim.keymap.set({ 'n' }, '<leader>tr', run_current_file, { desc = '[T]est [R]un Now' })
-    vim.keymap.set({ 'n' }, '<leader>tc', neotest.run.stop, { desc = '[T]est [C]ancel Now' })
   end,
 }
