@@ -1,6 +1,9 @@
 local M = {}
 
 -- Change this to edit the default autocomplete plugin
+-- Unfortunately toggling this at runtime is pretty painful if we want them
+-- both to use the same keybindings. Basically we can enable/disable the completions
+-- but it's very difficult to get "transfer" the keybindings to the other plugin.
 -- local default = 'copilot'
 local default = 'windsurf'
 M.backend = os.getenv 'NVIM_AUTOCOMPLETE' or default
