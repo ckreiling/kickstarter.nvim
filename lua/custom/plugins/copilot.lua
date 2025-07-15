@@ -17,6 +17,7 @@ return {
   opts = {
     copilot_model = 'gpt-4.1-copilot',
     panel = {
+      enabled = autocomplete_config.backend == 'copilot',
       auto_refresh = true,
     },
     filetypes = {
