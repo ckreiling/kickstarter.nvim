@@ -554,7 +554,7 @@ require('lazy').setup({
 
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          vim.lsp.set_log_level 'OFF' -- LSP logs are rarely useful
+          vim.lsp.set_log_level(os.getenv 'NVIM_LSP_LOG_LEVEL' or 'OFF') -- LSP logs are rarely useful, default to 'OFF'
 
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
