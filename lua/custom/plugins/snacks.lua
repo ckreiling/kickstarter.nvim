@@ -12,7 +12,7 @@ return {
     notifier = {},
     words = { enabled = true },
     statuscolumn = {},
-    terminal = {},
+    terminal = { enabled = true },
     quickfile = {},
     scroll = {},
     input = {
