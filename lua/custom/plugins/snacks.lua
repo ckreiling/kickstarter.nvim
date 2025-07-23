@@ -50,6 +50,22 @@ return {
       },
     },
     gitbrowse = {},
+    styles = {
+      terminal = {
+        keys = {
+          -- It is SO annoying having to double-press <esc> to get out of terminal mode.
+          term_normal = {
+            '<C-q>',
+            function()
+              vim.cmd 'stopinsert'
+            end,
+            mode = 't',
+            expr = true,
+            desc = 'C-q to normal mode',
+          },
+        },
+      },
+    },
   },
   keys = {
     {
