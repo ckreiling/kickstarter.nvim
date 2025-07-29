@@ -169,9 +169,16 @@ vim.keymap.set('i', 'jk', '<Esc>')
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Define a function for jumping to diagnostics
+local diagnostic_jump = function(n)
+  return function()
+    return vim.diagnostic.jump { count = n, float = true }
+  end
+end
+
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
+vim.keymap.set('n', '[d', diagnostic_jump(-1), { desc = 'Go to previous [D]iagnostic message' })
+vim.keymap.set('n', ']d', diagnostic_jump(1), { desc = 'Go to next [D]iagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -607,7 +614,9 @@ require('lazy').setup({
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- Jumps the cursor to the next LSP error in the current file.
-          map('ge', vim.diagnostic.goto_next, '[G]oto [E]rror')
+          map('ge', function()
+            return vim.diagnostic.jump { count = 1, float = true }
+          end, '[G]oto [E]rror')
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
