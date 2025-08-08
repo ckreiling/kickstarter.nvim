@@ -1,11 +1,35 @@
+local toggle_key = '<C-,>'
 ---@type LazyPluginSpec
 return {
   'coder/claudecode.nvim',
   dependencies = { 'folke/snacks.nvim' },
   config = true,
+
+  opts = {
+    terminal = {
+      ---@module "snacks"
+      ---@type snacks.win.Config|{}
+      snacks_win_opts = {
+        position = 'float',
+        width = 0.9,
+        height = 0.9,
+        keys = {
+          claude_hide = {
+            toggle_key,
+            function(self)
+              self:hide()
+            end,
+            mode = 't',
+            desc = 'Hide',
+          },
+        },
+      },
+    },
+  },
+
   keys = {
     { '<leader>a', nil, desc = 'AI/Claude Code' },
-    { '<leader>ac', '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
+    { toggle_key, '<cmd>ClaudeCode<cr>', desc = 'Toggle Claude' },
     { '<leader>af', '<cmd>ClaudeCodeFocus<cr>', desc = 'Focus Claude' },
     { '<leader>ar', '<cmd>ClaudeCode --resume<cr>', desc = 'Resume Claude' },
     { '<leader>aC', '<cmd>ClaudeCode --continue<cr>', desc = 'Continue Claude' },
