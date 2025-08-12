@@ -756,6 +756,7 @@ require('lazy').setup({
           },
         },
         terraformls = {
+          root_dir = require('lspconfig.util').root_pattern('.terraform', '.git'),
           init_options = {
             validation = {
               enableEnhancedValidation = false,
