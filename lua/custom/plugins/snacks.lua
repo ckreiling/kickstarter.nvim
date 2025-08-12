@@ -1,3 +1,5 @@
+local toggle_terminal_key = '<C-.>'
+
 ---@type LazyPluginSpec
 return {
   'folke/snacks.nvim',
@@ -12,7 +14,21 @@ return {
     notifier = {},
     words = { enabled = true },
     statuscolumn = {},
-    terminal = { enabled = true },
+    terminal = {
+      enabled = true,
+      win = {
+        keys = {
+          term_normal = {
+            toggle_terminal_key,
+            function(self)
+              self:toggle()
+            end,
+            mode = 't',
+            desc = 'Toggle',
+          },
+        },
+      },
+    },
     quickfile = {},
     scroll = {},
     input = {
@@ -76,7 +92,7 @@ return {
       desc = '[G]it [B]rowse',
     },
     {
-      '<leader>tt',
+      toggle_terminal_key,
       function()
         Snacks.terminal.toggle '/bin/zsh'
       end,
