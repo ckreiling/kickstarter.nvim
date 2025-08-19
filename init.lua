@@ -766,6 +766,16 @@ require('lazy').setup({
             },
           },
         },
+        helm_ls = {
+          settings = {
+            ['helm-ls'] = {
+              -- https://github.com/mrjosh/helm-ls/blob/master/README.md#default-configuration
+              yamlls = {
+                config = yaml_companion,
+              },
+            },
+          },
+        },
         cssls = {},
         ts_ls = {},
         basedpyright = {
@@ -1125,6 +1135,7 @@ require('lazy').setup({
         'hcl',
         'kdl',
         'dockerfile',
+        'helm',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
