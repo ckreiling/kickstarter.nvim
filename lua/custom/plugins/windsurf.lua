@@ -1,5 +1,3 @@
-local autocomplete_config = require 'custom.autocomplete'
-
 ---@type LazyPluginSpec
 return {
   'Exafunction/windsurf.vim',
@@ -12,7 +10,7 @@ return {
 
   config = function()
     vim.g.codeium_disable_bindings = 1 -- for custom bindings
-    vim.g.codeium_enabled = autocomplete_config.backend == 'windsurf'
+    vim.g.codeium_enabled = true
     vim.g.codeium_idle_delay = 75
 
     vim.keymap.set('i', '<C-a>', function()
