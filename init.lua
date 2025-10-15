@@ -154,6 +154,12 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- Tab settings
+vim.opt.tabstop = 4 -- Number of spaces that a <Tab> in the file counts for
+vim.opt.shiftwidth = 4 -- Number of spaces to use for each step of (auto)indent
+vim.opt.softtabstop = 4 -- Number of spaces that a <Tab> counts for while editing
+vim.opt.expandtab = true -- Use spaces instead of tabs
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -497,7 +503,8 @@ require('lazy').setup({
       'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',
     },
-    event = 'VeryLazy',
+    -- Only load for YAML, Helm, JSON, and TOML files
+    ft = { 'yaml', 'helm', 'json', 'toml' },
     config = function()
       require('telescope').load_extension 'yaml_schema'
     end,
@@ -519,9 +526,17 @@ require('lazy').setup({
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
-      -- used for completion, annotations and signatures of Neovim apis
-      { 'folke/neodev.nvim', opts = {} },
+      {
+        'folke/lazydev.nvim',
+        ft = 'lua', -- only load on lua files
+        opts = {
+          library = {
+            -- See the configuration section for more details
+            -- Load luvit types when the `vim.uv` word is found
+            { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+          },
+        },
+      },
 
       -- fire up schema management backends
       'someone-stole-my-name/yaml-companion.nvim',
@@ -828,7 +843,9 @@ require('lazy').setup({
         svelte = {},
       }
 
-      require('lspconfig').gleam.setup {}
+      -- Gleam is packaged with its own LSP server, do not install with Mason
+      vim.lsp.config('gleam', {})
+      vim.lsp.enable 'gleam'
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
@@ -856,7 +873,8 @@ require('lazy').setup({
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            vim.lsp.config(server_name, server)
+            vim.lsp.enable(server_name)
           end,
         },
       }
@@ -1039,6 +1057,7 @@ require('lazy').setup({
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
           { name = 'path' },
+          { name = 'lazydev', group_index = 0 },
         },
       }
     end,
