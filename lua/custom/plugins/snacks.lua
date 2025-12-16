@@ -1,5 +1,6 @@
 local toggle_terminal_key = '<C-.>'
 
+---@module 'lazy'
 ---@type LazyPluginSpec
 return {
   'folke/snacks.nvim',
@@ -8,6 +9,7 @@ return {
   cond = function()
     return not vim.g.vscode
   end,
+  ---@module 'snacks'
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
@@ -82,6 +84,7 @@ return {
         },
       },
     },
+    picker = {},
   },
   keys = {
     {

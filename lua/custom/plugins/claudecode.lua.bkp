@@ -1,4 +1,6 @@
-local toggle_key = '<C-,>'
+local toggle_key = '<C-s>'
+
+---@module "lazy"
 ---@type LazyPluginSpec
 return {
   'coder/claudecode.nvim',
