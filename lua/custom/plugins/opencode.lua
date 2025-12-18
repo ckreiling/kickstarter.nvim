@@ -37,12 +37,9 @@ return {
     -- Required for `opts.events.reload`.
     vim.o.autoread = true
 
-    local notify_title = 'Opencode'
-    local notify_icon = '🤖'
-
     local function opencode_notify(message, level)
       level = level or vim.log.levels.INFO
-      Snacks.notifier.notify(message, level, { title = notify_title, icon = notify_icon, style = 'fancy' })
+      Snacks.notifier.notify(message, level, { title = 'Opencode', icon = '🤖', style = 'fancy' })
     end
 
     vim.keymap.set({ 'n', 'x' }, '<C-a>', function()
@@ -119,15 +116,15 @@ return {
 
           -- only notify when the opencode terminal is closed; if it's open then I'm watching it happen
           if opencode_provider_snacks:get().closed then
-            local file = string.gsub(event.properties.file, vim.fn.getcwd() .. '/', '')
+            local file = vim.fn.fnamemodify(event.properties.file, ':.')
 
-            -- Depending on the buffer, notify differently.
+            -- Depending on the buffer, slightly alter the message
             if vim.api.nvim_buf_get_name(0) == event.properties.file then
               opencode_notify '✏️ Edited current buffer'
             elseif vim.fn.bufexists(event.properties.file) == 1 then
-              opencode_notify('✏️ Edited another open buffer:\n' .. file)
+              opencode_notify('✏️ Edited another open buffer:\n\n' .. file)
             else
-              opencode_notify('✏️ Edited unopened file:\n' .. file)
+              opencode_notify('✏️ Edited unopened file:\n\n' .. file)
             end
           end
         end
