@@ -113,12 +113,23 @@ return {
         end
 
         if event.type == 'file.edited' then
-          if vim.api.nvim_buf_get_name(0) == event.properties.file then
-            return
-          end
+          -- a tad leaky, hopefully this doesn't break
+          ---@module 'opencode.provider.snacks'
+          local opencode_provider_snacks = require('opencode.config').provider
 
-          local file = string.gsub(event.properties.file, vim.fn.getcwd() .. '/', '')
-          opencode_notify('✏️ Edited file:\n\n' .. file)
+          -- only notify when the opencode terminal is closed; if it's open then I'm watching it happen
+          if opencode_provider_snacks:get().closed then
+            local file = string.gsub(event.properties.file, vim.fn.getcwd() .. '/', '')
+
+            -- Depending on the buffer, notify differently.
+            if vim.api.nvim_buf_get_name(0) == event.properties.file then
+              opencode_notify '✏️ Edited current buffer'
+            elseif vim.fn.bufexists(event.properties.file) == 1 then
+              opencode_notify('✏️ Edited another open buffer:\n' .. file)
+            else
+              opencode_notify('✏️ Edited unopened file:\n' .. file)
+            end
+          end
         end
       end,
     })
