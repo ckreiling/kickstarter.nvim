@@ -113,6 +113,10 @@ return {
         end
 
         if event.type == 'file.edited' then
+          if vim.api.nvim_buf_get_name(0) == event.properties.file then
+            return
+          end
+
           local file = string.gsub(event.properties.file, vim.fn.getcwd() .. '/', '')
           opencode_notify('✏️ Edited file:\n\n' .. file)
         end
