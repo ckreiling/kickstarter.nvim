@@ -37,6 +37,14 @@ return {
     -- Required for `opts.events.reload`.
     vim.o.autoread = true
 
+    local notify_title = 'Opencode'
+    local notify_icon = '🤖'
+
+    local function opencode_notify(message, level)
+      level = level or vim.log.levels.INFO
+      Snacks.notifier.notify(message, level, { title = notify_title, icon = notify_icon, style = 'fancy' })
+    end
+
     vim.keymap.set({ 'n', 'x' }, '<C-a>', function()
       require('opencode').ask('@this: ', { submit = true })
     end, { desc = 'Ask opencode' })
@@ -47,27 +55,27 @@ return {
 
     vim.keymap.set({ 'n', 'x' }, '<leader>as', function()
       require('opencode').prompt '@this '
-      vim.notify('🤖 Sent line(s) to opencode', vim.log.levels.INFO)
+      opencode_notify 'Sent line(s) to opencode'
     end, { desc = 'Send lines to opencode' })
 
     vim.keymap.set({ 'n', 'x' }, '<leader>ab', function()
       require('opencode').prompt '@buffer'
-      vim.notify('🤖 Sent buffer to opencode', vim.log.levels.INFO)
+      opencode_notify 'Sent buffer to opencode'
     end, { desc = 'Add buffer to opencode' })
 
     vim.keymap.set({ 'n', 'x' }, '<leader>ag', function()
       require('opencode').prompt '@buffers'
-      vim.notify('🤖 Sent ALL buffers to opencode', vim.log.levels.INFO)
+      opencode_notify 'Sent ALL buffers to opencode'
     end, { desc = 'Add all buffers to opencode' })
 
     vim.keymap.set({ 'n', 'x' }, '<leader>av', function()
       require('opencode').prompt '@visible'
-      vim.notify('🤖 Sent visible text to opencode', vim.log.levels.INFO)
+      opencode_notify 'Sent visible text to opencode'
     end, { desc = 'Add visible text to opencode' })
 
     vim.keymap.set({ 'n', 'x' }, '<leader>ad', function()
       require('opencode').prompt '<git-diff>\n@diff</git-diff>\n\n'
-      vim.notify('🤖 Sent git diff to opencode', vim.log.levels.INFO)
+      opencode_notify 'Sent git diff to opencode'
     end, { desc = 'Add git diff to opencode' })
 
     vim.keymap.set({ 'n', 't' }, toggle_key, function()
@@ -97,16 +105,16 @@ return {
         -- vim.notify(vim.inspect(event))
 
         if event.type == 'session.idle' then
-          vim.notify('💤 Awaiting Input', vim.log.levels.INFO, { title = '🤖 Opencode', timeout = 3000 })
+          opencode_notify '💤 Awaiting Input'
         end
 
         if event.type == 'session.error' then
-          vim.notify('❌ Error in Opencode', vim.log.levels.ERROR, { title = '🤖 Opencode' })
+          opencode_notify('❌ Error in Opencode', vim.log.levels.ERROR)
         end
 
         if event.type == 'file.edited' then
           local file = string.gsub(event.properties.file, vim.fn.getcwd() .. '/', '')
-          vim.notify('✏️ Edited file:\n\n' .. file, vim.log.levels.INFO, { title = '🤖 Opencode' })
+          opencode_notify('✏️ Edited file:\n\n' .. file)
         end
       end,
     })
