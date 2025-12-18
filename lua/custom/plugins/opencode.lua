@@ -85,5 +85,30 @@ return {
     -- You may want these if you stick with the opinionated "<C-a>" and "<C-x>" above — otherwise consider "<leader>o".
     vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment', noremap = true })
     vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement', noremap = true })
+
+    -- Subscribe to events and emit notifications, or whatever!
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'OpencodeEvent:*',
+      callback = function(args)
+        ---@type opencode.cli.client.Event
+        local event = args.data.event
+
+        -- uncomment for notifications of every event
+        -- vim.notify(vim.inspect(event))
+
+        if event.type == 'session.idle' then
+          vim.notify('💤 Awaiting Input', vim.log.levels.INFO, { title = '🤖 Opencode', timeout = 3000 })
+        end
+
+        if event.type == 'session.error' then
+          vim.notify('❌ Error in Opencode', vim.log.levels.ERROR, { title = '🤖 Opencode' })
+        end
+
+        if event.type == 'file.edited' then
+          local file = string.gsub(event.properties.file, vim.fn.getcwd() .. '/', '')
+          vim.notify('✏️ Edited file:\n\n' .. file, vim.log.levels.INFO, { title = '🤖 Opencode' })
+        end
+      end,
+    })
   end,
 }
