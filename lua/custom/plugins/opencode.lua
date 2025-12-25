@@ -95,11 +95,19 @@ return {
     vim.api.nvim_create_autocmd('User', {
       pattern = 'OpencodeEvent:*',
       callback = function(args)
-        ---@type opencode.cli.client.Event
-        local event = args.data.event
-
         -- uncomment for notifications of every event
         -- vim.notify(vim.inspect(event))
+
+        -- a tad leaky, hopefully this doesn't break
+        ---@module 'opencode.provider.snacks'
+        -- if the opencode terminal isn't closed then I'm watching it happen
+        local opencode_provider_snacks = require('opencode.config').provider
+        if not opencode_provider_snacks:get().closed then
+          return
+        end
+
+        ---@type opencode.cli.client.Event
+        local event = args.data.event
 
         if event.type == 'session.idle' then
           opencode_notify '💤 Awaiting Input'
@@ -110,22 +118,15 @@ return {
         end
 
         if event.type == 'file.edited' then
-          -- a tad leaky, hopefully this doesn't break
-          ---@module 'opencode.provider.snacks'
-          local opencode_provider_snacks = require('opencode.config').provider
+          local file = vim.fn.fnamemodify(event.properties.file, ':.')
 
-          -- only notify when the opencode terminal is closed; if it's open then I'm watching it happen
-          if opencode_provider_snacks:get().closed then
-            local file = vim.fn.fnamemodify(event.properties.file, ':.')
-
-            -- Depending on the buffer, slightly alter the message
-            if vim.api.nvim_buf_get_name(0) == event.properties.file then
-              opencode_notify '✏️ Edited current buffer'
-            elseif vim.fn.bufexists(event.properties.file) == 1 then
-              opencode_notify('✏️ Edited another open buffer:\n\n' .. file)
-            else
-              opencode_notify('✏️ Edited unopened file:\n\n' .. file)
-            end
+          -- Depending on the buffer, slightly alter the message
+          if vim.api.nvim_buf_get_name(0) == event.properties.file then
+            opencode_notify '✏️ Edited current buffer'
+          elseif vim.fn.bufexists(event.properties.file) == 1 then
+            opencode_notify('✏️ Edited another open buffer:\n\n' .. file)
+          else
+            opencode_notify('✏️ Edited unopened file:\n\n' .. file)
           end
         end
       end,
