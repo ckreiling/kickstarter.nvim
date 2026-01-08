@@ -1,5 +1,12 @@
 local toggle_key = '<C-,>'
 
+-- Map Neovim background to OpenCode theme
+-- OpenCode's "system" theme doesn't work in Neovim's terminal (Node.js doesn't detect TTY)
+-- so we dynamically set the theme based on vim.o.background via OPENCODE_CONFIG_CONTENT
+local function get_opencode_theme()
+  return vim.o.background == 'light' and 'gruvbox' or 'tokyonight'
+end
+
 ---@module 'lazy'
 ---@type LazyPluginSpec
 return {
@@ -33,6 +40,19 @@ return {
         },
       },
     }
+
+    -- Dynamically update theme env var before each toggle
+    -- This ensures the theme matches vim.o.background at the time opencode is opened
+    local original_toggle = require('opencode').toggle
+    require('opencode').toggle = function(...)
+      ---@module 'opencode.provider.snacks'
+      local provider = require('opencode.config').provider
+      if provider and provider.opts then
+        provider.opts.env = provider.opts.env or {}
+        provider.opts.env.OPENCODE_CONFIG_CONTENT = vim.json.encode { theme = get_opencode_theme() }
+      end
+      return original_toggle(...)
+    end
 
     -- Required for `opts.events.reload`.
     vim.o.autoread = true
