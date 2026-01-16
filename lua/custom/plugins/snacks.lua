@@ -97,7 +97,8 @@ return {
     {
       toggle_terminal_key,
       function()
-        Snacks.terminal.toggle '/bin/zsh'
+        local cmd = vim.fn.executable 'zellij' == 1 and 'zellij' or '/bin/zsh'
+        Snacks.terminal.toggle(cmd)
       end,
       desc = '[T]oggle [T]erminal',
     },

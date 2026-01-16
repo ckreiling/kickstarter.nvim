@@ -122,7 +122,7 @@ return {
         ---@module 'opencode.provider.snacks'
         -- if the opencode terminal isn't closed then I'm watching it happen
         local opencode_provider_snacks = require('opencode.config').provider
-        if not opencode_provider_snacks:get().closed then
+        if opencode_provider_snacks and not opencode_provider_snacks:get().closed then
           return
         end
 
