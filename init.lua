@@ -225,6 +225,19 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+for index, pattern in ipairs { 'yaml', 'terraform' } do
+  vim.api.nvim_create_autocmd('FileType', {
+    pattern = pattern,
+    callback = function()
+      vim.opt_local.foldmethod = 'marker'
+      -- Markers are: start, end
+      vim.opt_local.foldmarker = '# region,# endregion'
+      vim.opt_local.foldenable = true
+      vim.opt_local.foldlevel = 0 -- closed by default
+    end,
+  })
+end
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
