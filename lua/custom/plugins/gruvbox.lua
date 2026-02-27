@@ -1,2 +1,2 @@
 ---@type LazyPluginSpec
-return { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true }
+return { 'ellisonleao/gruvbox.nvim', priority = 1001, config = true }

@@ -1081,14 +1081,10 @@ require('lazy').setup({
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+    -- NOTE: colorscheme switching is handled by auto-dark-mode.nvim in lua/custom/plugins/auto-dark-mode.lua
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      -- TODO: Make this dynamic somehow.
-      -- For some reason, when Ghostty updates the background it doesn't always work.
-      vim.cmd.colorscheme(vim.o.background == 'light' and 'gruvbox' or 'tokyonight-night')
-
-      -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
   },
