@@ -1,4 +1,20 @@
 local toggle_key = '<C-,>'
+local opencode_cmd = 'opencode --port'
+
+---@module 'snacks'
+---@type snacks.terminal.Opts
+local snacks_terminal_opts = {
+  start_insert = true,
+  win = {
+    position = 'float',
+    width = 0.9,
+    height = 0.9,
+    enter = true,
+  },
+  on_win = function(win)
+    require('opencode.terminal').setup(win.win)
+  end,
+}
 
 -- Map Neovim background to OpenCode theme
 -- OpenCode's "system" theme doesn't work in Neovim's terminal (Node.js doesn't detect TTY)
@@ -19,19 +35,16 @@ return {
     ---@module 'opencode'
     ---@type opencode.Opts
     vim.g.opencode_opts = {
-      provider = {
-        enabled = 'snacks',
-        ---@module 'snacks'
-        ---@type snacks.terminal.Opts
-        snacks = {
-          start_insert = true,
-          win = {
-            position = 'float',
-            width = 0.9,
-            height = 0.9,
-            enter = true,
-          },
-        },
+      server = {
+        start = function()
+          require('snacks.terminal').open(opencode_cmd, snacks_terminal_opts)
+        end,
+        stop = function()
+          require('snacks.terminal').get(opencode_cmd, snacks_terminal_opts):close()
+        end,
+        toggle = function()
+          require('snacks.terminal').toggle(opencode_cmd, snacks_terminal_opts)
+        end,
       },
       events = {
         -- don't prompt for permissions

@@ -589,7 +589,7 @@ require('lazy').setup({
 
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          vim.lsp.set_log_level(os.getenv 'NVIM_LSP_LOG_LEVEL' or 'OFF') -- LSP logs are rarely useful, default to 'OFF'
+          vim.lsp.log.set_level(os.getenv 'NVIM_LSP_LOG_LEVEL' or 'OFF') -- LSP logs are rarely useful, default to 'OFF'
 
           -- NOTE: Remember that Lua is a real programming language, and as such it is possible
           -- to define small helper and utility functions so you don't have to repeat yourself.
@@ -851,6 +851,7 @@ require('lazy').setup({
             },
           },
         },
+        dockerls = {},
         ocamllsp = {},
         ocamlformat = {},
         svelte = {},
@@ -859,6 +860,17 @@ require('lazy').setup({
       -- Gleam is packaged with its own LSP server, do not install with Mason
       vim.lsp.config('gleam', {})
       vim.lsp.enable 'gleam'
+
+      -- Modern neovim doesn't necessarily have this? Anyway not worth dwelling on.
+      -- Perhaps more to glean from related issue: https://github.com/neovim/neovim/issues/37457
+      vim.filetype.add {
+        filename = {
+          Tiltfile = 'tiltfile',
+        },
+      }
+      -- Tilt is packaged with its own LSP server, do not install with Mason
+      vim.lsp.config('tilt_ls', {})
+      vim.lsp.enable 'tilt_ls'
 
       -- Ensure the servers and tools above are installed
       --  To check the current status of installed tools and/or manually install
@@ -1141,55 +1153,78 @@ require('lazy').setup({
   },
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     cond = function()
       return not vim.g.vscode
     end,
+    lazy = false,
     build = ':TSUpdate',
-    opts = {
-      ensure_installed = {
+    config = function()
+      require('nvim-treesitter').setup()
+
+      -- Equivalent of old `ensure_installed` + `auto_install`.
+      -- `.install()` is idempotent; safe to call on every startup.
+      require('nvim-treesitter').install {
         'bash',
         'c',
         'diff',
+        'dockerfile',
+        'helm',
+        'hcl',
         'html',
+        'javascript',
+        'kdl',
         'lua',
         'luadoc',
         'markdown',
-        'vim',
-        'vimdoc',
-        'javascript',
-        'typescript',
+        'markdown_inline', -- needed for proper markdown highlighting / render-markdown.nvim
         'python',
         'terraform',
-        'hcl',
-        'kdl',
-        'dockerfile',
-        'helm',
-      },
-      -- Autoinstall languages that are not installed
-      auto_install = true,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { 'ruby' },
-      },
-      indent = { enable = true, disable = { 'ruby' } },
-    },
-    config = function(_, opts)
-      -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+        'typescript',
+        'vim',
+        'vimdoc',
+        'starlark',
+        'json',
+      }
 
-      -- Prefer git instead of curl in order to improve connectivity in some environments
-      require('nvim-treesitter.install').prefer_git = true
-      ---@diagnostic disable-next-line: missing-fields
-      require('nvim-treesitter.configs').setup(opts)
+      -- Equivalent of old `highlight.enable` and `indent.enable`.
+      -- There is no global toggle anymore; it's per-buffer via FileType.
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = {
+          'bash',
+          'c',
+          'diff',
+          'helm',
+          'hcl',
+          'html',
+          'javascript',
+          'javascriptreact',
+          'kdl',
+          'lua',
+          'markdown',
+          'python',
+          'terraform',
+          'typescript',
+          'typescriptreact',
+          'vim',
+          'tiltfile',
+          'starlark',
+        },
+        callback = function(args)
+          local buf = args.buf
+          if not pcall(vim.treesitter.start, buf) then
+            return
+          end
+          vim.bo[buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
 
-      -- There are additional nvim-treesitter modules that you can use to interact
-      -- with nvim-treesitter. You should go explore a few and see what interests you:
-      --
-      --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-      --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-      --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+      vim.treesitter.language.register('starlark', 'tiltfile')
+
+      -- Other modules to explore (separate plugins now, all need `branch = 'main'`):
+      --   - https://github.com/nvim-treesitter/nvim-treesitter-context
+      --   - https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+      -- Incremental selection is no longer included; it's its own thing now.
     end,
   },
 
