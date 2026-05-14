@@ -399,7 +399,7 @@ require('lazy').setup({
       return not vim.g.vscode
     end,
     event = 'VeryLazy',
-    branch = '0.1.x',
+    tag = 'v0.2.1',
     dependencies = {
       'nvim-lua/plenary.nvim',
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
